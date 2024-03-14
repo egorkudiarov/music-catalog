@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS genre_singer(
 
 CREATE TABLE IF NOT EXISTS album(
     id SERIAL PRIMARY KEY,
-    release_year DATE CHECK(release_year >= '2010-01-01') NOT NULL,
+    release_date DATE CHECK(release_date >= '2010-01-01') NOT NULL,
     album_title VARCHAR(128) NOT NULL
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS track(
 
 CREATE TABLE IF NOT EXISTS compilation(
     id SERIAL PRIMARY KEY,
-    release_year DATE CHECK(release_year >= '2010-01-01') NOT NULL,
+    release_date DATE CHECK(release_date >= '2010-01-01') NOT NULL,
     compilation_title VARCHAR(128) NOT NULL
 );
 
@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS compilation_track(
     id SERIAL PRIMARY KEY,
     compilation_id INTEGER NOT NULL REFERENCES compilation(id),
     track_id INTEGER NOT NULL REFERENCES track(id)  
+    --to do, add comparison of album and compilation dates
 );
 
 
