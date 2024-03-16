@@ -17,23 +17,32 @@ SELECT singer_name
 SELECT track_title
   FROM track
  WHERE LOWER(track_title) LIKE '%my%';
- 
-SELECT (SELECT genre_title FROM genre WHERE id = genre_id), COUNT(singer_id)  
+
+SELECT genre_title, COUNT(singer_id) 
   FROM genre_singer
-group by genre_id;
+  JOIN genre ON genre_singer.genre_id = genre.id
+ GROUP BY genre_title;
 
 SELECT count(track_title)
   FROM track
- WHERE album_id IN (SELECT id FROM album WHERE release_date  BETWEEN '2019-01-01' AND '2021-01-01');
+  JOIN album ON track.album_id = album.id
+ WHERE release_year BETWEEN '2019-01-01' AND '2021-01-01';
  
-SELECT (SELECT album_title FROM album WHERE id = album_id), AVG(duration) 
+SELECT album_title, AVG(duration) 
   FROM track
-group by album_id;
+  JOIN album ON track.album_id = album.id
+ GROUP BY album_title;
 
-SELECT (SELECT singer_name FROM singer WHERE id = singer_id)  
+SELECT singer_name 
   FROM singer_album
- WHERE singer_id NOT IN (SELECT singer_id FROM singer_album WHERE album_id IN (SELECT id FROM album WHERE release_date  BETWEEN '2020-01-01' AND '2021-01-01'));
+  JOIN singer ON singer.id = singer_album.singer_id
+  JOIN  album ON  album.id = singer_album.album_id
+ WHERE release_year NOT BETWEEN '2020-01-01' AND '2021-01-01';
  
-SELECT compilation_title 
+SELECT distinct compilation_title 
   FROM compilation 
- WHERE id IN (SELECT compilation_id FROM compilation_track WHERE track_id IN (SELECT id FROM track WHERE album_id IN (SELECT album_id FROM singer_album WHERE singer_id = 1)));
+  JOIN compilation_track ON compilation_track.compilation_id = compilation.id  
+  JOIN track ON track.id = compilation_track.track_id 
+  JOIN singer_album ON singer_album.album_id = track.album_id
+  JOIN singer ON singer.id = singer_album.singer_id 
+ WHERE singer_id = 1;
