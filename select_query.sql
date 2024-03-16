@@ -26,7 +26,7 @@ SELECT genre_title, COUNT(singer_id)
 SELECT count(track_title)
   FROM track
   JOIN album ON track.album_id = album.id
- WHERE release_year BETWEEN '2019-01-01' AND '2021-01-01';
+ WHERE release_date BETWEEN '2019-01-01' AND '2021-01-01';
  
 SELECT album_title, AVG(duration) 
   FROM track
@@ -37,7 +37,7 @@ SELECT singer_name
   FROM singer_album
   JOIN singer ON singer.id = singer_album.singer_id
   JOIN  album ON  album.id = singer_album.album_id
- WHERE release_year NOT BETWEEN '2020-01-01' AND '2021-01-01';
+ WHERE release_date NOT BETWEEN '2020-01-01' AND '2021-01-01';
  
 SELECT distinct compilation_title 
   FROM compilation 
