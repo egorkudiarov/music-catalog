@@ -37,8 +37,8 @@ SELECT singer_name
   FROM singer_album
   JOIN singer ON singer.id = singer_album.singer_id
   JOIN  album ON  album.id = singer_album.album_id
- WHERE release_date NOT BETWEEN '2020-01-01' AND '2021-01-01';
- 
+ WHERE singer_id NOT IN (SELECT singer_id FROM singer_album WHERE album_id IN (SELECT id FROM album WHERE release_date  BETWEEN '2020-01-01' AND '2021-01-01'));
+
 SELECT distinct compilation_title 
   FROM compilation 
   JOIN compilation_track ON compilation_track.compilation_id = compilation.id  
